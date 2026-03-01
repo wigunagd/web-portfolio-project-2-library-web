@@ -12,3 +12,13 @@ export const getRecommend = async ({ by, page, limit }: BookQueryParams) => {
 
     return response.data.data;
 }
+
+export const getAuthor = async ({ limit }: { limit: number }) => {
+    const response = await apiAxios.get("/api/authors/popular", {
+        params: {
+            limit: limit
+        }
+    });
+
+    return response.data.data;
+}

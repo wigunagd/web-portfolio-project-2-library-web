@@ -1,12 +1,14 @@
-import { icCategory1Fiction, icCategory2NonFiction, icCategory3SelfImprovement, icCategory4Finance, icCategory5ScienceTech, icCategory6Education, icStar, imgBanner1, imgBanner2, imgBanner3, imgBookTemp } from "@/assets/asset";
+import { icBook, icCategory1Fiction, icCategory2NonFiction, icCategory3SelfImprovement, icCategory4Finance, icCategory5ScienceTech, icCategory6Education, icStar, imgBanner1, imgBanner2, imgBanner3, imgBookTemp, imgTmpProfilePic } from "@/assets/asset";
 import Navbar from "@/components/Navbar";
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 import { useEffect, useState } from "react";
-import { useGetRecommend } from "./hooksHome";
+import { useGetAuthor, useGetRecommend } from "./hooksHome";
 import type { Book } from "./homeType";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { BookSkeleton } from "@/components/BookSkeleton";
+import { AuthorSkeleton } from "@/components/Author.Skeleton";
+import Footer from "@/components/Footer";
 
 const arrBanner = [
     imgBanner1,
@@ -60,6 +62,10 @@ const Home = () => {
         hasNextPage: hasNextPageRecomm
     } = useGetRecommend({ by: 'rating', page: 1, limit: 10 });
 
+    const { data: dataAuthor, isLoading: isLoadingAuthor } = useGetAuthor({ limit: 4 });
+
+    console.log(dataAuthor, 'dataAuthor');
+
     useEffect(() => {
         if (!api) return;
 
@@ -76,7 +82,8 @@ const Home = () => {
     return (
         <>
             <Navbar />
-            <main className="pt-23 md:px-0 px-4 w-full md:max-w-300 mx-auto gap-5 grid mb-5">
+
+            <main className="pt-23 md:px-0 px-4 w-full md:max-w-300 mx-auto gap-12 grid mb-5">
                 <section id="banner-section" className="w-full mx-auto">
                     <Carousel setApi={setApi}>
                         <CarouselContent>
@@ -136,16 +143,16 @@ const Home = () => {
                                     dataRecomm?.pages.map(page => {
                                         return page.books.map((books: Book) => {
                                             return (
-                                                <div key={books.id} className="flex flex-col w-full md:max-w-[224px] rounded-3xl shadow">
-                                                    <div className="flex h-64.5 md:h-84 rounded-t-3xl">
-                                                        <img src={books.coverImage ?? imgBookTemp} alt={books.title} className="object-cover" />
+                                                <a key={books.id} className="flex flex-col w-full md:max-w-56 rounded-3xl shadow">
+                                                    <div className="flex h-64.5 md:h-84">
+                                                        <img src={books.coverImage ?? imgBookTemp} alt={books.title} className="object-cover rounded-t-3xl" />
                                                     </div>
                                                     <div className="flex flex-col p-4">
                                                         <span className="text-sm md:text-lg font-bold text-neutral-900">{books.title}</span>
                                                         <span className="text-sm md:text-md text-neutral-700">{books.author.name}</span>
                                                         <span className="flex gap-1 text-sm md:text-md text-neutral-900 font-semibold"><img src={icStar} alt={`Rating ${books.title}`} />{books.rating}</span>
                                                     </div>
-                                                </div>
+                                                </a>
                                             )
                                         })
                                     })
@@ -169,7 +176,38 @@ const Home = () => {
 
                 </section>
 
+                <hr />
+
+                <section id="author-section" className="flex flex-col gap-10 mb-4 md:mb-29">
+                    <span className="w-full text-display-xs md:text-display-lg font-bold">Popular Authors</span>
+
+                    <div className="flex flex-wrap gap-5">
+
+                        {
+                            isLoadingAuthor && (<AuthorSkeleton />)
+                        }
+
+                        {
+                            dataAuthor?.authors.map((a, i) => (
+                                <div key={i} className="flex items-center gap-4 w-full md:max-w-71.25">
+                                    <img src={imgTmpProfilePic} alt={`Profile ${a.id}`} className="w-15 h-15 md:w-20 md:h-20 rounded-full" />
+                                    <div className="flex flex-col">
+                                        <span className="text-sm md:text-lg font-bold text-neutral-900">{a.name}</span>
+                                        <span className="flex items-center text-sm md:text-md text-neutral-700 gap-1.5"><img src={icBook} alt={`Book ${a.id}`} />{a.bookCount} books</span>
+                                    </div>
+                                </div>
+                            ))
+                        }
+
+
+
+                    </div>
+
+                </section>
+
             </main>
+
+            <Footer />
         </>
     )
 }

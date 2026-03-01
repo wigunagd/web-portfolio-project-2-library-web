@@ -1,16 +1,22 @@
 import { AxiosError } from "axios";
-import type { BookQueryParams, BookResponseData } from "./homeType";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { getRecommend } from "./apiHome";
+import type { AuthorResponseData, BookQueryParams, BookResponseData } from "./homeType";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { getAuthor, getRecommend } from "./apiHome";
 
-export const useGetRecommend = (params: BookQueryParams) =>{
+export const useGetRecommend = (params: BookQueryParams) => {
     return useInfiniteQuery<BookResponseData, AxiosError>({
         initialPageParam: 1,
         queryKey: ['recomend', params],
-        queryFn: ({pageParam}) => getRecommend({...params, page: pageParam as number}),
+        queryFn: ({ pageParam }) => getRecommend({ ...params, page: pageParam as number }),
         getNextPageParam: (responseData) => {
-            console.log(responseData, 'responseData')
-            return (responseData.pagination.page<responseData.pagination.totalPages) ? responseData.pagination.page + 1 : undefined;
+            return (responseData.pagination.page < responseData.pagination.totalPages) ? responseData.pagination.page + 1 : undefined;
         }
+    });
+}
+
+export const useGetAuthor = (params: { limit: number }) => {
+    return useQuery<AuthorResponseData, AxiosError>({
+        queryKey: ['author', params],
+        queryFn: () => getAuthor(params),
     });
 }

@@ -10,6 +10,9 @@ export interface BookQueryParams {
 interface Author {
   id: number;
   name: string;
+  bio: string | null;
+  bookCount: number;
+  accumulatedScore: number;
 }
 
 interface Category {
@@ -54,4 +57,8 @@ export interface ApiResponse {
   success: boolean;
   message: string;
   data: BookResponseData;
+}
+
+export interface AuthorResponseData {
+  authors: Author[];
 }
