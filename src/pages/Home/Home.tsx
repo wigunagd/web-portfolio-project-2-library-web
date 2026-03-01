@@ -1,14 +1,27 @@
-import { icBook, icCategory1Fiction, icCategory2NonFiction, icCategory3SelfImprovement, icCategory4Finance, icCategory5ScienceTech, icCategory6Education, icStar, imgBanner1, imgBanner2, imgBanner3, imgBookTemp, imgTmpProfilePic } from "@/assets/asset";
+import {
+    icBook,
+    icCategory1Fiction,
+    icCategory2NonFiction,
+    icCategory3SelfImprovement,
+    icCategory4Finance,
+    icCategory5ScienceTech,
+    icCategory6Education,
+    imgBanner1,
+    imgBanner2,
+    imgBanner3,
+    imgTmpProfilePic
+} from "@/assets/asset";
 import Navbar from "@/components/Navbar";
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 import { useEffect, useState } from "react";
 import { useGetAuthor, useGetRecommend } from "./hooksHome";
-import type { Book } from "./homeType";
+import type { Book } from "../pagetype/bookType";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { BookSkeleton } from "@/components/BookSkeleton";
 import { AuthorSkeleton } from "@/components/Author.Skeleton";
 import Footer from "@/components/Footer";
+import BookItemList from "@/components/BookItemList";
 
 const arrBanner = [
     imgBanner1,
@@ -63,8 +76,6 @@ const Home = () => {
     } = useGetRecommend({ by: 'rating', page: 1, limit: 10 });
 
     const { data: dataAuthor, isLoading: isLoadingAuthor } = useGetAuthor({ limit: 4 });
-
-    console.log(dataAuthor, 'dataAuthor');
 
     useEffect(() => {
         if (!api) return;
@@ -143,16 +154,7 @@ const Home = () => {
                                     dataRecomm?.pages.map(page => {
                                         return page.books.map((books: Book) => {
                                             return (
-                                                <a key={books.id} className="flex flex-col w-full md:max-w-56 rounded-3xl shadow">
-                                                    <div className="flex h-64.5 md:h-84">
-                                                        <img src={books.coverImage ?? imgBookTemp} alt={books.title} className="object-cover rounded-t-3xl" />
-                                                    </div>
-                                                    <div className="flex flex-col p-4">
-                                                        <span className="text-sm md:text-lg font-bold text-neutral-900">{books.title}</span>
-                                                        <span className="text-sm md:text-md text-neutral-700">{books.author.name}</span>
-                                                        <span className="flex gap-1 text-sm md:text-md text-neutral-900 font-semibold"><img src={icStar} alt={`Rating ${books.title}`} />{books.rating}</span>
-                                                    </div>
-                                                </a>
+                                                <BookItemList books={books} />
                                             )
                                         })
                                     })

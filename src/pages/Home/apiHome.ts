@@ -1,5 +1,5 @@
 import { apiAxios } from "@/lib/apiAxios";
-import type { BookQueryParams } from "./homeType";
+import type { BookQueryParams } from "../pagetype/bookType";
 
 export const getRecommend = async ({ by, page, limit }: BookQueryParams) => {
     const response = await apiAxios.get("/api/books/recommend", {

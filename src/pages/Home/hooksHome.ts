@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import type { AuthorResponseData, BookQueryParams, BookResponseData } from "./homeType";
+import type { AuthorResponseData, BookQueryParams, BookResponseData } from "../pagetype/bookType";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { getAuthor, getRecommend } from "./apiHome";
 

@@ -24,6 +24,7 @@ export interface Book {
   id: number;
   title: string;
   description: string;
+  pages: number;
   isbn: string;
   publishedYear: number;
   coverImage: string;

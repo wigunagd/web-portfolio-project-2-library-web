@@ -45,7 +45,7 @@ const Navbar = () => {
     return (
         <header className="fixed top-0 left-0 w-full border-b bg-white z-50">
 
-            <nav className="flex flex-row w-full max-w-300 justify-between items-center mx-auto h-16 md:h-20 px-4 gap-2 md:gap-4">
+            <nav className="flex flex-row w-full max-w-300 justify-between items-center mx-auto h-16 md:h-20 px-4 md:px-0 gap-2 md:gap-4">
                 <LogoNav />
 
                 <div id="searchbar" className={`flex-1 min-w-0 h-11 py-2 px-4 border md:max-w-125 rounded-full items-center 
