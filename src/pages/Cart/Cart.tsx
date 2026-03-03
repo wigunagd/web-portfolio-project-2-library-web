@@ -37,33 +37,38 @@ const Cart = () => {
 
                             {isLoading && (
                                 <CartItemSkeleton />
-                                )}
+                            )}
 
                             {!isLoading && (
                                 <>
                                     {
-                                        data?.items.map(item => (
-                                            <div key={item.id} className="flex flex-row w-full items-start gap-2 text-xd items-center">
-                                                <Checkbox id={`select-item`}
-                                                    name={`select-item`} />
-                                                <FieldLabel htmlFor={`select-item`} asChild>
-                                                    <div className="relative flex w-full gap-4 ">
-                                                        <img src={item.book.coverImage ?? imgBookTemp} alt="Book Banner" className="max-h-26.5 md:max-h-34.5" />
-                                                        <div className="flex flex-col justify-center gap-2">
-                                                            <span className="border flex w-fit px-2 rounded-sm text-sm font-bold">{item.book.category.name}</span>
-                                                            <span className="text-lg font-bold">{item.book.title}</span>
-                                                            <span className="text-md">{item.book.author.name}</span>
+                                        data?.items.map((item, i) => (
+                                            <>
+                                                {
+                                                    i > 0 && (<hr />)
+                                                }
+                                                <div key={item.id} className="flex flex-row w-full items-start gap-2">
+                                                    <Checkbox id={`select-item`}
+                                                        name={`select-item`} />
+                                                    <FieldLabel htmlFor={`select-item`} asChild>
+                                                        <div className="relative flex w-full gap-4 ">
+                                                            <img src={item.book.coverImage ?? imgBookTemp} alt="Book Banner" className="max-h-26.5 md:max-h-34.5" />
+                                                            <div className="flex flex-col justify-center gap-2">
+                                                                <span className="border flex w-fit px-2 rounded-sm text-sm font-bold">{item.book.category.name}</span>
+                                                                <span className="text-lg font-bold">{item.book.title}</span>
+                                                                <span className="text-md">{item.book.author.name}</span>
+                                                            </div>
+                                                            <div className="absolute top-0 right-0">
+                                                                <Button
+                                                                    className="flex  w-10 h-10"
+                                                                    variant={'ghost'}>
+                                                                    X
+                                                                </Button>
+                                                            </div>
                                                         </div>
-                                                        <div className="absolute top-0 right-0">
-                                                            <Button
-                                                                className="flex  w-10 h-10"
-                                                                variant={'ghost'}>
-                                                                X
-                                                            </Button>
-                                                        </div>
-                                                    </div>
-                                                </FieldLabel>
-                                            </div>
+                                                    </FieldLabel>
+                                                </div>
+                                            </>
                                         ))
                                     }
                                 </>
@@ -78,7 +83,7 @@ const Cart = () => {
 
                                 <div className=" md:relative flex flex-col md:flex-row justify-between">
                                     <span className="text-md">Total Book</span>
-                                    <span className="text-md font-bold">2 Items</span>
+                                    <span className="text-md font-bold">{data?.itemCount ?? 0} Items</span>
                                 </div>
 
                                 <Button className="rounded-full w-37.5 md:w-full h-12">Borrow Book</Button>
