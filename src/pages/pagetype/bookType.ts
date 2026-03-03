@@ -9,12 +9,12 @@ export interface BookQueryParams {
 
 // ---------------
 
-interface Author {
+export interface Author {
   id: number;
   name: string;
-  bio: string | null;
+  bio?: string | null;
   bookCount: number;
-  accumulatedScore: number;
+  accumulatedScore?: number;
 }
 
 interface Category {

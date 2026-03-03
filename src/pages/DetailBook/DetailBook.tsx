@@ -54,7 +54,7 @@ const DetailBook = () => {
 
                                         <h2 className="font-bold text-display-xs md:text-display-sm">{dataDetailBook?.title}</h2>
 
-                                        <span className="text-sm md:text-md">{dataDetailBook?.author.name}</span>
+                                        <a href={`/author?id=${dataDetailBook?.authorId}`} className="text-sm w-fit hover:text-primary-300 md:text-md">{dataDetailBook?.author.name}</a>
 
                                         <span className="text-md flex items-center gap-1"><img src={icStar} alt="Rating" />{dataDetailBook?.rating}</span>
                                     </div>

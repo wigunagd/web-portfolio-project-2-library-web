@@ -1,9 +1,7 @@
 import {
-    icBook,
     imgBanner1,
     imgBanner2,
-    imgBanner3,
-    imgTmpProfilePic
+    imgBanner3
 } from "@/assets/asset";
 import Navbar from "@/components/Navbar";
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
@@ -17,6 +15,7 @@ import { AuthorSkeleton } from "@/components/AuthorSkeleton";
 import Footer from "@/components/Footer";
 import BookItemList from "@/components/BookItemList";
 import { categoriesList } from "../pagetype/categorylist";
+import AuthorList from "@/components/AuthorList";
 
 const arrBanner = [
     imgBanner1,
@@ -154,14 +153,8 @@ const Home = () => {
                         }
 
                         {
-                            dataAuthor?.authors.map((a, i) => (
-                                <div key={i} className="flex items-center gap-4 w-full md:max-w-71.25">
-                                    <img src={imgTmpProfilePic} alt={`Profile ${a.id}`} className="w-15 h-15 md:w-20 md:h-20 rounded-full" />
-                                    <div className="flex flex-col">
-                                        <span className="text-sm md:text-lg font-bold text-neutral-900">{a.name}</span>
-                                        <span className="flex items-center text-sm md:text-md text-neutral-700 gap-1.5"><img src={icBook} alt={`Book ${a.id}`} />{a.bookCount} books</span>
-                                    </div>
-                                </div>
+                            dataAuthor?.authors.map(a => (
+                                <AuthorList className="md:max-w-71.25" a={a} />
                             ))
                         }
 

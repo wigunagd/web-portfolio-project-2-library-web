@@ -4,6 +4,7 @@ import LoginPage from './pages/Auth/LoginPage'
 import Register from './pages/Auth/Register'
 import DetailBook from './pages/DetailBook/DetailBook'
 import Category from './pages/Category/Category'
+import Author from './pages/Author/Author'
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
       <Route path='/register' element={<Register />} />
       <Route path='/detailbook' element={<DetailBook />} />
       <Route path='/category' element={<Category />} />
+      <Route path='/author' element={<Author />} />
     </Routes>
   )
 }
