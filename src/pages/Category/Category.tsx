@@ -48,6 +48,21 @@ const Category = () => {
     const [filterCategory, setfilterCategory] = useState<number[]>(filterState.category);
     const [filterRating, setfilterRating] = useState<number[]>(filterState.rating);
 
+    useEffect(() => {
+        if (category !== 0) {
+            setfilterCategory((prevFilter) => {
+                const newFilter = [...prevFilter, category];
+
+                dispatch(setFilterReducer({
+                    category: newFilter,
+                    rating: filterRating
+                }));
+
+                return newFilter;
+            });
+        }
+    }, [filterRating, dispatch, category]);
+
     const {
         data: dataBook,
         isLoading: isLoadingBook,
@@ -84,7 +99,7 @@ const Category = () => {
             <main className="relative pt-23 md:px-0 px-4 w-full md:max-w-300 mx-auto gap-4 md:gap-12 grid mb-5">
                 <h1 className="text-display-xs md:text-display-lg font-bold">Book List</h1>
 
-                <div className="relative w-full md:max-w-300 mx-auto gap-4 md:gap-12 grid md:flex">
+                <div className=" w-full md:max-w-300 mx-auto gap-4 md:gap-12 grid md:flex">
 
                     <Button
                         onClick={handleShowFilter}
@@ -124,7 +139,7 @@ const Category = () => {
                                         <div key={i}
                                             className="flex flex-row w-full gap-2 text-xd items-center">
                                             <Checkbox
-                                                checked={filterCategory.includes(c.id) || category === c.id}
+                                                checked={filterCategory.includes(c.id)}
                                                 onCheckedChange={(checked: boolean) => handleCheckboxChangeCategory(c.id, checked)}
                                                 id={`filter cat ${c.id}`}
                                                 value={`${c.id}`}

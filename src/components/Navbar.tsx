@@ -118,14 +118,20 @@ const Navbar = () => {
                         {islogin && (
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <Button variant={'ghost2'} className="flex items-center gap-2 h-16 hover:bg-neutral-50">
+                                    <Button id="drop-down-menu-button" variant={'ghost2'} className="flex items-center gap-2 h-16 hover:bg-neutral-50">
                                         <img src={authState.user.profilePhoto ?? imgTmpProfilePic} alt="" />
                                         <span className="text-md font-semibold hidden md:flex">{authState.user.name}</span>
                                         <img src={icDropDown} className="hidden md:flex" />
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className="py-2 w-40">
-                                    <a href="#" onClick={handleLogout} className="w-full px-2">Logout</a>
+                                <DropdownMenuContent
+                                    asChild>
+                                    <div className="min-w-[var(--radix-dropdown-menu-trigger-width)] w-full p-4 flex flex-col gap-4 text-md font-semibold" >
+                                        <a href="/profile" className="px-2">Profile</a>
+                                        <a href="/borrowedlist" className="px-2">Borrowed List</a>
+                                        <a href="/reviews" className="px-2">Reviews</a>
+                                        <a href="#" onClick={handleLogout} className="px-2 text-accent-red">Logout</a>
+                                    </div>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         )}
