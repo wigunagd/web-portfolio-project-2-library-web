@@ -179,11 +179,14 @@ const Category = () => {
                                 <>
                                     {
                                         dataBook?.pages.map(page => {
-                                            return page.books.map((books: Book) => {
-                                                return (
-                                                    <BookItemList className="md:max-w-[204.75px]" books={books} />
-                                                )
-                                            })
+                                            return page.books
+                                                .filter((books) => filterCategory.length === 0 || filterCategory.includes(books.categoryId))
+                                                .filter((books) => filterRating.length === 0 || books.rating <= Math.max(...filterRating))
+                                                .map((books: Book) => {
+                                                    return (
+                                                        <BookItemList className="md:max-w-[204.75px]" books={books} />
+                                                    )
+                                                })
                                         })
                                     }
                                 </>
