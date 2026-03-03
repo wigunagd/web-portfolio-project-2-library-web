@@ -10,8 +10,6 @@ const Navbar = () => {
 
     const [showSearch, setShowSearch] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
-    // const [cartCount, setCartCount] = useState(0);
-    const cartCount = 0;
 
     const useIsMobile = (breakpoint: number = 768) => {
         const [isMobile, setIsMobile] = useState(window.innerWidth < breakpoint);
@@ -30,6 +28,7 @@ const Navbar = () => {
 
     const isMobile = useIsMobile();
 
+    const cartState = useAppSelector((state) => state.cart);
     const authState = useAppSelector((state) => state.auth);
     const islogin = (authState.accessToken !== "" && authState.isLoggedin);
     const dispatch = useAppDispatch();
@@ -74,12 +73,14 @@ const Navbar = () => {
                             <img src={icSearch2} />
                         </Button>
 
-                        <Button variant={'ghost2'} asChild>
-                            <a href="/cart" className="relative">
-                                <img src={icBag} />
-                                <span className="absolute top-0 right-3 flex items-center justify-center text-white bg-accent-red w-5 h-5 rounded-full">{cartCount}</span>
-                            </a>
-                        </Button>
+                        {islogin && (
+                            <Button variant={'ghost2'} asChild>
+                                <a href="/cart" className="relative">
+                                    <img src={icBag} />
+                                    <span className="absolute top-0 right-3 flex items-center justify-center text-white bg-accent-red w-5 h-5 rounded-full">{cartState.cartCount}</span>
+                                </a>
+                            </Button>
+                        )}
 
 
                         {!islogin && (

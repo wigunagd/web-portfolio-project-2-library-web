@@ -144,7 +144,7 @@ const Category = () => {
                                                 id={`filter cat ${c.id}`}
                                                 value={`${c.id}`}
                                                 name={`filter cat ${c.id}`} />
-                                            <FieldLabel htmlFor={`filter cat ${c.id}`} className="text-xd">
+                                            <FieldLabel htmlFor={`filter cat ${c.id}`} className="text-md">
                                                 {c.name}
                                             </FieldLabel>
                                         </div>
@@ -166,7 +166,7 @@ const Category = () => {
                                                 id={`filter rating ${r}`}
                                                 value={`${r}`}
                                                 name={`filter rating ${r}`} />
-                                            <FieldLabel htmlFor={`filter rating ${r}`} className="text-xd">
+                                            <FieldLabel htmlFor={`filter rating ${r}`} className="text-md">
                                                 {r}
                                             </FieldLabel>
                                         </div>
