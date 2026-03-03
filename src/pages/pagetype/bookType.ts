@@ -1,6 +1,8 @@
 export interface BookQueryParams {
   by?: 'rating' | 'popularity';
   categoryId?: number;
+  authorId?: number;
+  minRating?: number;
   page?: number;
   limit?: number;
 }

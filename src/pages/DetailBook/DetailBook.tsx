@@ -88,7 +88,7 @@ const DetailBook = () => {
                                     </div>
 
                                     <div className="fixed bottom-0 left-0 w-full h-18 px-4 flex items-center bg-white md:relative md:h-fit md:px-0 md:bg-transparent">
-                                        <div className="grid grid-cols-2 md:flex gap-3 w-full items-center">
+                                        <div className="grid grid-cols-2 md:flex gap-3 w-full items-center bg-red-300">
                                             <Button variant={'ghost'} className="rounded-full w-full md:max-w-50 h-10 md:h-12 text-sm md:text-md font-bold border">
                                                 Add to Cart
                                             </Button>
@@ -140,7 +140,7 @@ const DetailBook = () => {
                                 {
                                     dataRelatedBook?.books?.filter((book) => book.id !== id)
                                         .map(books => (
-                                            <BookItemList books={books} />
+                                            <BookItemList className="md:max-w-56" books={books} />
                                         ))
                                 }
                             </div>

@@ -1,11 +1,5 @@
 import {
     icBook,
-    icCategory1Fiction,
-    icCategory2NonFiction,
-    icCategory3SelfImprovement,
-    icCategory4Finance,
-    icCategory5ScienceTech,
-    icCategory6Education,
     imgBanner1,
     imgBanner2,
     imgBanner3,
@@ -22,6 +16,7 @@ import { BookSkeleton } from "@/components/BookSkeleton";
 import { AuthorSkeleton } from "@/components/AuthorSkeleton";
 import Footer from "@/components/Footer";
 import BookItemList from "@/components/BookItemList";
+import { categoriesList } from "../pagetype/categorylist";
 
 const arrBanner = [
     imgBanner1,
@@ -29,38 +24,7 @@ const arrBanner = [
     imgBanner3,
 ];
 
-const categories = [
-    {
-        id: 4,
-        name: "Fiction",
-        logoCat: icCategory1Fiction
-    },
-    {
-        id: 10,
-        name: "Non-Fiction",
-        logoCat: icCategory2NonFiction
-    },
-    {
-        id: 7,
-        name: "Self-Improvement",
-        logoCat: icCategory3SelfImprovement
-    },
-    {
-        id: 9,
-        name: "Finance",
-        logoCat: icCategory4Finance
-    },
-    {
-        id: 11,
-        name: "Science & Technology",
-        logoCat: icCategory5ScienceTech
-    },
-    {
-        id: 8,
-        name: "Education",
-        logoCat: icCategory6Education
-    },
-];
+const categories = categoriesList;
 
 const Home = () => {
     const [api, setApi] = useState<CarouselApi>();
@@ -154,7 +118,7 @@ const Home = () => {
                                     dataRecomm?.pages.map(page => {
                                         return page.books.map((books: Book) => {
                                             return (
-                                                <BookItemList books={books} />
+                                                <BookItemList className="md:max-w-56" books={books} />
                                             )
                                         })
                                     })

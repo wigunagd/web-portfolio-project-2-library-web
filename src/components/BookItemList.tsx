@@ -1,13 +1,13 @@
 import { icStar, imgBookTemp } from "@/assets/asset";
 import type { Book } from "@/pages/pagetype/bookType";
 
-const BookItemList = ({ books }: { books: Book }) => {
+const BookItemList = ({ books, className }: { books: Book, className: string }) => {
     return (
 
         <a
             href={`/detailbook?id=${books.id}`}
             key={books.id}
-            className="flex flex-col w-full md:max-w-56 rounded-3xl shadow">
+            className={`flex flex-col rounded-3xl shadow w-full ${className}`}>
             <div className="flex h-64.5 md:h-84">
                 <img src={books.coverImage ?? imgBookTemp} alt={books.title} className="w-full object-cover rounded-t-3xl" />
             </div>
