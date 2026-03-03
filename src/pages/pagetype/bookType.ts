@@ -20,6 +20,21 @@ interface Category {
   name: string;
 }
 
+interface ReviewUser {
+  id: number;
+  name: string;
+}
+
+export interface Review {
+  id: number;
+  star: number;
+  comment: string;
+  userId: number;
+  bookId: number;
+  createdAt: string;
+  user: ReviewUser;
+}
+
 export interface Book {
   id: number;
   title: string;
@@ -39,6 +54,7 @@ export interface Book {
   updatedAt: string;
   author: Author;
   category: Category;
+  reviews: Review[];
 }
 
 export interface BooksPagination {

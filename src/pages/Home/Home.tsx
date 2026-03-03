@@ -19,7 +19,7 @@ import type { Book } from "../pagetype/bookType";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { BookSkeleton } from "@/components/BookSkeleton";
-import { AuthorSkeleton } from "@/components/Author.Skeleton";
+import { AuthorSkeleton } from "@/components/AuthorSkeleton";
 import Footer from "@/components/Footer";
 import BookItemList from "@/components/BookItemList";
 

@@ -1,16 +1,23 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import { useGetDetailBook } from "./hooksDetailBook";
+import { useGetDetailBook, useGetRelatedBook } from "./hooksDetailBook";
 import { useSearchParams } from "react-router-dom";
 import { icDirectionRight, icStar } from "@/assets/asset";
 import { Button } from "@/components/ui/button";
 import { DetailBookSkeleton } from "./DetailBookSkeleton";
+import BookCommentList from "@/components/BookCommentList";
+import { BookCommentListSkeleton } from "@/components/BookCommentListSkeleton";
+import { BookSkeleton } from "@/components/BookSkeleton";
+import BookItemList from "@/components/BookItemList";
 
 const DetailBook = () => {
     const [srcParam] = useSearchParams();
     const id = Number(srcParam.get('id'));
 
     const { data: dataDetailBook, isLoading: isLoadingDetailBook } = useGetDetailBook(id);
+    const categoryId = dataDetailBook?.categoryId;
+
+    const { data: dataRelatedBook, isLoading: isLoadingRelatedBook } = useGetRelatedBook({ by: 'rating', limit: 5, categoryId: categoryId });
     //console.log(dataDetailBook, 'dataDetailBook');
 
     return (
@@ -100,18 +107,45 @@ const DetailBook = () => {
 
                     <div className="border-b w-full" />
 
-                    {!isLoadingDetailBook && (
-                        <div className="flex flex-col w-full gap-4.5">
-                            <div className="flex flex-col w-full gap-3">
-                                <span className="font-bold text-display-xs md:text-lg">Review</span>
-                                <span className="flex w-full gap-2 text-md md:text-xl"><img src={icStar} alt={`Rating ${dataDetailBook?.title}`} /> {dataDetailBook?.rating} ({dataDetailBook?.reviewCount} Ulasan)</span>
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-5">
-                                <div className="flex flex-col w-full">1</div>
-                            </div>
+                    <div className="flex flex-col w-full gap-4.5">
+                        <div className="flex flex-col w-full gap-3">
+                            <span className="font-bold text-display-xs md:text-lg">Review</span>
+                            <span className="flex w-full gap-2 text-md md:text-xl"><img src={icStar} alt={`Rating ${dataDetailBook?.title}`} /> {dataDetailBook?.rating} ({dataDetailBook?.reviewCount} Ulasan)</span>
                         </div>
-                    )}
+
+                        {isLoadingDetailBook && (<BookCommentListSkeleton />)}
+
+                        {!isLoadingDetailBook && (
+                            <div className="grid md:grid-cols-2 gap-5">
+                                {
+                                    dataDetailBook?.reviews.map((r, i) => (
+                                        <BookCommentList i={i} r={r} />
+                                    ))
+                                }
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="border-b w-full" />
+
+                    <div className="flex flex-col w-full gap-4.5 mb-0 md:mb-29.5">
+                        <div className="flex flex-col w-full gap-3">
+                            <span className="font-bold text-display-xs md:text-lg">Related Books</span>
+                        </div>
+
+                        {isLoadingRelatedBook && (<BookSkeleton />)}
+
+                        {!isLoadingRelatedBook && (
+                            <div className="grid grid-cols-2 md:flex md:flex-wrap gap-5">
+                                {
+                                    dataRelatedBook?.books?.filter((book) => book.id !== id)
+                                        .map(books => (
+                                            <BookItemList books={books} />
+                                        ))
+                                }
+                            </div>
+                        )}
+                    </div>
 
                 </section>
             </main>
