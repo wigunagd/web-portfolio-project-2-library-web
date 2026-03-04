@@ -1,5 +1,5 @@
 import { apiAxios } from "@/lib/apiAxios";
-import type { CheckoutRequestBody } from "./checkouttype";
+import type { CheckoutRequestBody } from "./checkoutType1";
 
 export const getCheckoutData = async () => {
     const response = await apiAxios.get("/api/cart/checkout");
