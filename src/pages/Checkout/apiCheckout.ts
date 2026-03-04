@@ -15,5 +15,3 @@ export const doCheckout = async ({ itemIds, days, borrowDate }: CheckoutRequestB
 
     return response.data;
 }
-
-
