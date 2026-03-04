@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import { useGetDetailBook, useGetRelatedBook } from "./hooksDetailBook";
-import { useSearchParams } from "react-router-dom";
+import { useAddToCart, useGetDetailBook, useGetRelatedBook } from "./hooksDetailBook";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { icDirectionRight, icStar } from "@/assets/asset";
 import { Button } from "@/components/ui/button";
 import { DetailBookSkeleton } from "./DetailBookSkeleton";
@@ -9,6 +9,15 @@ import BookCommentList from "@/components/BookCommentList";
 import { BookCommentListSkeleton } from "@/components/BookCommentListSkeleton";
 import { BookSkeleton } from "@/components/BookSkeleton";
 import BookItemList from "@/components/BookItemList";
+import { toast } from "sonner";
+import type { RequestResponse } from "@/lib/requestResponseType";
+import type { AxiosError } from "axios";
+import { useQueryClient } from "@tanstack/react-query";
+import { useAppDispatch, useAppSelector } from "@/redux/3_redux";
+import { useGetChartData } from "../Cart/hooksCart";
+import { setCartCount } from "@/redux/1_cartSlice";
+import { useState } from "react";
+import { Spinner } from "@/components/ui/spinner";
 
 const DetailBook = () => {
     const [srcParam] = useSearchParams();
@@ -18,7 +27,48 @@ const DetailBook = () => {
     const categoryId = dataDetailBook?.categoryId;
 
     const { data: dataRelatedBook, isLoading: isLoadingRelatedBook } = useGetRelatedBook({ by: 'rating', limit: 5, categoryId: categoryId });
-    //console.log(dataDetailBook, 'dataDetailBook');
+
+    const cartState = useAppSelector((state) => state.cart);
+    const navigate = useNavigate();
+    const [selectedCart, setSelectedCart] = useState(cartState.cartSelected);
+    const dispatch = useAppDispatch();
+
+    const { data: dataCart } = useGetChartData();
+
+    dispatch(setCartCount({ cartCount: dataCart?.itemCount ?? 0, cartSelected: selectedCart }));
+
+    const { mutate, isPending } = useAddToCart();
+    const queryClient = useQueryClient();
+
+    const handleAddToCart = () => {
+        mutate({ bookId: id }, {
+            onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey: ['cart'] });
+                toast('Book added');
+            },
+            onError: (e) => {
+                const error = e as AxiosError<RequestResponse>;
+                const errorMessage = error.response?.data?.message ?? "An unexpected error occurred";
+                toast(errorMessage);
+            }
+        });
+    }
+
+    const handleBorrowBook = () => {
+        mutate({ bookId: id }, {
+            onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey: ['cart'] });
+                toast('Book added');
+                setSelectedCart([id]);
+                navigate('/checkout');
+            },
+            onError: (e) => {
+                const error = e as AxiosError<RequestResponse>;
+                const errorMessage = error.response?.data?.message ?? "An unexpected error occurred";
+                toast(errorMessage);
+            }
+        });
+    }
 
     return (
         <>
@@ -88,13 +138,21 @@ const DetailBook = () => {
                                     </div>
 
                                     <div className="fixed bottom-0 left-0 w-full h-18 px-4 flex items-center bg-white md:relative md:h-fit md:px-0 md:bg-transparent">
-                                        <div className="grid grid-cols-2 md:flex gap-3 w-full items-center bg-red-300">
-                                            <Button variant={'ghost'} className="rounded-full w-full md:max-w-50 h-10 md:h-12 text-sm md:text-md font-bold border">
+                                        <div className="grid grid-cols-2 md:flex gap-3 w-full items-center">
+                                            <Button
+                                                disabled={isPending}
+                                                onClick={handleAddToCart}
+                                                variant={'ghost'}
+                                                className="rounded-full w-full md:max-w-50 h-10 md:h-12 text-sm md:text-md font-bold border">
                                                 Add to Cart
                                             </Button>
-                                            <Button className="rounded-full w-full md:max-w-50 h-10 md:h-12 text-sm md:text-md font-bold">
-                                                Borrow Book
+                                            <Button
+                                                disabled={isPending}
+                                                onClick={handleBorrowBook}
+                                                className="rounded-full w-full md:max-w-50 h-10 md:h-12 text-sm md:text-md font-bold">
+                                                 Borrow Book
                                             </Button>
+                                            {isPending && (<Spinner />)} 
                                         </div>
                                     </div>
 

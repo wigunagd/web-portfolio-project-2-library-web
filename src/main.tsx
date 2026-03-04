@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Provider } from 'react-redux';
 import { persistedStore, store } from './redux/3_redux.ts';
 import { PersistGate } from 'redux-persist/integration/react';
+import { Toaster } from 'sonner';
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ createRoot(document.getElementById('root')!).render(
         <QueryClientProvider client={queryClient}>
           <BrowserRouter>
             <App />
+            <Toaster />
           </BrowserRouter>
         </QueryClientProvider>
       </PersistGate>

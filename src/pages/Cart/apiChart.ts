@@ -5,3 +5,9 @@ export const getChartData = async () => {
 
     return response.data.data;
 }
+
+export const delChartData = async (itemId: number) => {
+    const response = await apiAxios.delete(`/api/cart/items/${itemId}`);
+
+    return response.data.data;
+}

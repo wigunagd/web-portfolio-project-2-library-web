@@ -6,6 +6,7 @@ import DetailBook from './pages/DetailBook/DetailBook'
 import Category from './pages/Category/Category'
 import Author from './pages/Author/Author'
 import Cart from './pages/Cart/Cart'
+import Checkout from './pages/Checkout/Checkout'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
       <Route path='/category' element={<Category />} />
       <Route path='/author' element={<Author />} />
       <Route path='/cart' element={<Cart />} />
+      <Route path='/checkout' element={<Checkout />} />
     </Routes>
   )
 }

@@ -9,7 +9,7 @@ const BookCommentList = ({ i, r }: { i: number, r: Review }) => {
                 <img src={imgTmpProfilePic} alt={`Profile ${r.userId}`} className="w-15 h-15 md:w-20 md:h-20 rounded-full" />
                 <div className="flex flex-col">
                     <span className="text-sm md:text-lg font-bold text-neutral-950">{r.user.name}</span>
-                    <span className="text-sm md:text-md text-neutral-950">{formatTanggal(r.createdAt)}</span>
+                    <span className="text-sm md:text-md text-neutral-950">{formatTanggal(r.createdAt, 'DD MMMM YYYY')}</span>
                 </div>
             </div>
             <span className="flex items-center text-sm md:text-md text-neutral-700 gap-1.5">

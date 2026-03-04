@@ -3,6 +3,6 @@ import 'dayjs/locale/id';
 
 dayjs.locale('id');
 
-export function formatTanggal(dateval: Date | string | number): string{
-    return dayjs(dateval).format('DD MMMM YYYY');
+export function formatTanggal(dateval: Date | string | number, formatTgl: string): string{
+    return dayjs(dateval).format(formatTgl);
 }
