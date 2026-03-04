@@ -12,8 +12,11 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import dayjs from "dayjs";
 import { setCartCount } from "@/redux/1_cartSlice";
-import { useGetCheckoutData } from "./hooksCheckout";
-
+import { useDoCheckout, useGetCheckoutData } from "./hooksCheckout";
+import { Spinner } from "@/components/ui/spinner";
+import type { AxiosError } from "axios";
+import type { RequestResponse } from "@/lib/requestResponseType";
+import { toast } from "sonner";
 
 const rbDays = [
     {
@@ -39,14 +42,40 @@ const Checkout = () => {
     const [selectedDuration, setSelectedDuration] = useState(rbDays[0].value);
     const [acceptDueDate, setAcceptDueDate] = useState(false);
     const [acceptPolicy, setAcceptPolicy] = useState(false);
+    const [errMsg, setErrMsg] = useState("");
 
     const returnDate = dayjs().add(parseInt(selectedDuration), 'day').format('DD MMM YYYY');
+    const borrowDate = dayjs().format('YYYY-MM-DD');
    
     const cartState = useAppSelector((state) => state.cart);
     const selectedCart = cartState.cartSelected;
     const dispatch = useAppDispatch();
 
     dispatch(setCartCount({ cartCount: data?.itemCount ?? 0, cartSelected: selectedCart }));
+
+    const {mutate, isPending} = useDoCheckout();
+
+    const handleCheckout = () => {
+        if(acceptDueDate && acceptPolicy){
+            mutate({
+                itemIds: cartState.cartSelected,
+                days: Number(selectedDuration),
+                borrowDate: borrowDate
+            }, {
+                onSuccess: (response) => {
+                    console.log(response, 'checkout');
+                    toast(response.message);
+                },
+                onError: (e) => {
+                const error = e as AxiosError<RequestResponse>;
+                const errorMessage = error.response?.data?.message ?? "An unexpected error occurred";
+                toast(errorMessage);
+            }
+            })
+        }else{
+            setErrMsg('Must agree to return book before due date and accept the library borrowing policy.');
+        }
+    }
 
     return (
         <>
@@ -154,7 +183,10 @@ const Checkout = () => {
                             <div className="flex flex-row w-full gap-2 text-xd items-start">
                                 <Checkbox
                                     checked={acceptDueDate}
-                                    onCheckedChange={() => setAcceptDueDate(!acceptDueDate)}
+                                    onCheckedChange={() => {
+                                        setAcceptDueDate(!acceptDueDate);
+                                        setErrMsg('');
+                                    }}
                                     id="accept-term-return"
                                     value="accept-term-return"
                                     name="accept-term-return"
@@ -167,7 +199,10 @@ const Checkout = () => {
                             <div className="flex flex-row w-full gap-2 text-xd items-start">
                                 <Checkbox
                                     checked={acceptPolicy}
-                                    onCheckedChange={() => setAcceptPolicy(!acceptPolicy)}
+                                    onCheckedChange={() => {
+                                        setAcceptPolicy(!acceptPolicy);
+                                        setErrMsg('');
+                                    }}
                                     id="accept-policy"
                                     value="accept-policy"
                                     name="accept-policy"
@@ -177,7 +212,15 @@ const Checkout = () => {
                                 </FieldLabel>
                             </div>
 
-                            <Button className="w-full rounded-full h-12">Confirm & Borrow</Button>
+                            <Button 
+                            disabled={isPending}
+                            onClick={handleCheckout}
+                            className="w-full rounded-full h-12">{isPending && (<Spinner />)} Confirm & Borrow</Button>
+                            {
+                                errMsg!="" && (
+                                    <p className="text-center text-accent-red">{errMsg}</p>
+                                )
+                            }
 
                         </div>
 
