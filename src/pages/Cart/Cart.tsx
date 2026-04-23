@@ -5,20 +5,20 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FieldLabel } from "@/components/ui/field";
 import { useAppDispatch, useAppSelector } from "@/redux/3_redux";
-import { /* useDelChartData, */ useGetChartData } from "./hooksCart";
+import { useDelChartData, useGetChartData } from "./hooksCart";
 import { setCartCount } from "@/redux/1_cartSlice";
 import CartItemSkeleton from "@/components/CartItemSkeleton";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "@/components/ui/spinner";
-/* import { useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner"; */
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const Cart = () => {
     const cartState = useAppSelector((state) => state.cart);
     const navigate = useNavigate();
-    const [selectedCart, setSelectedCart] = useState<number[]>(cartState.cartSelected);
-    /* const { mutate } = useDelChartData(); */
+    const [selectedCart, setSelectedCart] = useState<number[]>([]);
+    const { mutate } = useDelChartData();
 
     const [errMsg, setErrMsg] = useState("");
     const [toCheckout, setToCheckOut] = useState(false);
@@ -53,7 +53,7 @@ const Cart = () => {
     }
 
     const allItems = useMemo(() => {
-        return data?.items.map(item => item.bookId) || [];
+        return data?.items.map(item => item.id) || [];
     }, [data]);
 
     useEffect(() => {
@@ -67,6 +67,12 @@ const Cart = () => {
     const handleToCheckout = () => {
 
         setToCheckOut(true);
+
+        if (selectedCart.length < 1) {
+            setErrMsg("Select book to ckeckout");
+            setToCheckOut(false);
+            return;
+        }
 
         if (cartState.cartCount < 1) {
             setErrMsg("Cart empty");
@@ -85,18 +91,19 @@ const Cart = () => {
 
     const isCartEmpty = data?.itemCount === 0;
 
-    /* const queryCLient = useQueryClient();
+    const queryCLient = useQueryClient();
     const delCart = (id: number) => {
         mutate(id, {
             onSuccess: () => {
+                //console.log(a);
                 queryCLient.invalidateQueries({ queryKey: ['cart'] });
                 toast('Item deleted');
             },
-            onError: (e) =>{
+            onError: (e) => {
                 console.log(e)
             }
         });
-    } */
+    }
 
     return (
         <>
@@ -134,7 +141,7 @@ const Cart = () => {
                                 <>
                                     {
                                         data?.items.map((item, i) => {
-                                            selectAllProps = [...selectAllProps, item.bookId];
+                                            selectAllProps = [...selectAllProps, item.id];
 
                                             return (
                                                 <>
@@ -143,25 +150,27 @@ const Cart = () => {
                                                     }
                                                     <div key={item.id} className="flex flex-row w-full items-start gap-2">
                                                         <Checkbox
-                                                            checked={selectedCart.includes(item.bookId)}
-                                                            onCheckedChange={(checked: boolean) => handleCardSelect(item.bookId, checked)}
-                                                            id={item.bookId.toString()}
-                                                            name={item.bookId.toString()} />
-                                                        <FieldLabel htmlFor={item.bookId.toString()} className="relative flex items-start w-full gap-4 ">
+                                                            checked={selectedCart.includes(item.id)}
+                                                            onCheckedChange={(checked: boolean) => handleCardSelect(item.id, checked)}
+                                                            id={item.id.toString()}
+                                                            name={item.id.toString()} />
+                                                        <FieldLabel htmlFor={item.id.toString()} className="relative flex items-start w-full gap-4 ">
                                                             <img src={item.book.coverImage ?? imgBookTemp} alt="Book Banner" className="max-h-26.5 md:max-h-34.5" />
                                                             <div className="flex flex-col justify-center gap-2">
                                                                 <span className="border flex w-fit px-2 rounded-sm text-sm font-bold">{item.book.category.name}</span>
                                                                 <span className="text-lg font-bold">{item.book.title}</span>
                                                                 <span className="text-md">{item.book.author.name}</span>
+                                                                <span className="text-md">ID {item.id}</span>
+                                                                <span className="text-md">Book ID {item.bookId}</span>
                                                             </div>
-                                                            {/* <div className="absolute top-0 right-0">
+                                                            <div className="absolute top-0 right-0">
                                                                 <Button
-                                                                    onClick={() => delCart(item.bookId)}
+                                                                    onClick={() => delCart(item.id)}
                                                                     className="flex  w-10 h-10"
                                                                     variant={'ghost'}>
                                                                     X
                                                                 </Button>
-                                                            </div> */}
+                                                            </div>
                                                         </FieldLabel>
                                                     </div>
                                                 </>
@@ -171,6 +180,8 @@ const Cart = () => {
                                     }
                                 </>
                             )}
+
+                            {/* {selectedCart.join(', ')} */}
 
                         </div>
 

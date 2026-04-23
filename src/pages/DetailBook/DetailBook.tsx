@@ -20,6 +20,8 @@ import { useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
 
 const DetailBook = () => {
+    const [btnClick, setBtnClick] = useState<1 | 2>(1);
+
     const [srcParam] = useSearchParams();
     const id = Number(srcParam.get('id'));
 
@@ -40,34 +42,54 @@ const DetailBook = () => {
     const { mutate, isPending } = useAddToCart();
     const queryClient = useQueryClient();
 
+    const authState = useAppSelector((state) => state.auth);
+    const islogin = (authState.accessToken !== "" && authState.isLoggedin);
+
     const handleAddToCart = () => {
-        mutate({ bookId: id }, {
-            onSuccess: () => {
-                queryClient.invalidateQueries({ queryKey: ['cart'] });
-                toast('Book added');
-            },
-            onError: (e) => {
-                const error = e as AxiosError<RequestResponse>;
-                const errorMessage = error.response?.data?.message ?? "An unexpected error occurred";
-                toast(errorMessage);
-            }
-        });
+        if(islogin){
+            setBtnClick(1);
+            mutate({ bookId: id }, {
+                onSuccess: () => {
+                    queryClient.invalidateQueries({ queryKey: ['cart'] });
+                    toast('Book added');
+                },
+                onError: (e) => {
+                    const error = e as AxiosError<RequestResponse>;
+                    const errorMessage = error.response?.data?.message ?? "An unexpected error occurred";
+                    toast(errorMessage);
+                }
+            });
+        }else{
+            toast('Please login to continue');
+        }
     }
 
     const handleBorrowBook = () => {
-        mutate({ bookId: id }, {
-            onSuccess: () => {
-                queryClient.invalidateQueries({ queryKey: ['cart'] });
-                toast('Book added');
+        if(islogin){
+            setBtnClick(2);
+            const bookInChart = dataCart?.items.some(item => item.bookId === id);
+    
+            if (!bookInChart) {
+                mutate({ bookId: id }, {
+                    onSuccess: () => {
+                        queryClient.invalidateQueries({ queryKey: ['cart'] });
+                        toast('Book added');
+                        setSelectedCart([id]);
+                        navigate('/checkout');
+                    },
+                    onError: (e) => {
+                        const error = e as AxiosError<RequestResponse>;
+                        const errorMessage = error.response?.data?.message ?? "An unexpected error occurred";
+                        toast(errorMessage);
+                    }
+                });
+            } else {
                 setSelectedCart([id]);
                 navigate('/checkout');
-            },
-            onError: (e) => {
-                const error = e as AxiosError<RequestResponse>;
-                const errorMessage = error.response?.data?.message ?? "An unexpected error occurred";
-                toast(errorMessage);
             }
-        });
+        }else{
+            toast('Please login to continue');
+        }
     }
 
     return (
@@ -144,15 +166,14 @@ const DetailBook = () => {
                                                 onClick={handleAddToCart}
                                                 variant={'ghost'}
                                                 className="rounded-full w-full md:max-w-50 h-10 md:h-12 text-sm md:text-md font-bold border">
-                                                Add to Cart
+                                                {isPending && btnClick === 1 && (<Spinner />)} Add to Cart
                                             </Button>
                                             <Button
                                                 disabled={isPending}
                                                 onClick={handleBorrowBook}
                                                 className="rounded-full w-full md:max-w-50 h-10 md:h-12 text-sm md:text-md font-bold">
-                                                 Borrow Book
+                                                {isPending && btnClick === 2 && (<Spinner />)} Borrow Book
                                             </Button>
-                                            {isPending && (<Spinner />)} 
                                         </div>
                                     </div>
 
