@@ -110,7 +110,7 @@ const Cart = () => {
             <Navbar />
 
             <main className=" min-h-screen pt-23 md:px-0 px-4 w-full md:max-w-300 mx-auto gap-12 grid mb-5">
-                <div className="flex flex-col w-full max-w-250 gap-8">
+                <div className="flex flex-col w-full max-w-250 gap-8 mx-auto">
                     <span className="text-display-xs md:text-display-lg font-bold">My Cart</span>
 
                     <div className="flex flex-col md:flex-row w-full gap-10">

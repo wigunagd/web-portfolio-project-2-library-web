@@ -7,7 +7,7 @@ import Category from './pages/Category/Category'
 import Author from './pages/Author/Author'
 import Cart from './pages/Cart/Cart'
 import Checkout from './pages/Checkout/Checkout'
-import Success from './pages/Success/Success'
+import Profile from './pages/Profile/Profile'
 
 function App() {
 
@@ -21,7 +21,7 @@ function App() {
       <Route path='/author' element={<Author />} />
       <Route path='/cart' element={<Cart />} />
       <Route path='/checkout' element={<Checkout />} />
-      <Route path='/success' element={<Success />} />
+      <Route path='/profile' element={<Profile />} />
     </Routes>
   )
 }

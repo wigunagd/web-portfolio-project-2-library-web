@@ -19,7 +19,7 @@ import type { RequestResponse } from "@/lib/requestResponseType";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import Success from "../Success/Success";
+import Success from "./Success";
 import type { BorrowResponse } from "./checkoutType1";
 
 const rbDays = [

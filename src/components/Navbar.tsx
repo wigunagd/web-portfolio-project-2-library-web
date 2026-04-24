@@ -128,9 +128,9 @@ const Navbar = () => {
                                 <DropdownMenuContent
                                     asChild>
                                     <div className="min-w-[var(--radix-dropdown-menu-trigger-width)] w-full p-4 flex flex-col gap-4 text-md font-semibold" >
-                                        <a href="/profile" className="px-2">Profile</a>
-                                        <a href="/borrowedlist" className="px-2">Borrowed List</a>
-                                        <a href="/reviews" className="px-2">Reviews</a>
+                                        <a href="/profile#profile" className="px-2">Profile</a>
+                                        <a href="/profile#borrowedlist" className="px-2">Borrowed List</a>
+                                        <a href="/profile#reviews" className="px-2">Reviews</a>
                                         <a href="#" onClick={handleLogout} className="px-2 text-accent-red">Logout</a>
                                     </div>
                                 </DropdownMenuContent>

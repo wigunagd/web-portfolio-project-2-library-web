@@ -11,7 +11,7 @@ const Success = ({rtnMessage}: {rtnMessage: string}) => {
                 <span className="w-full text-center text-md md:text-lg">Your book has been successfully borrowed. Please return it by <span className="text-accent-red">{rtnMessage}</span></span>
             </div>
 
-            <Button className="w-full max-w-67 rounded-full h-12">See Borrowed List</Button>
+            <Button asChild className="w-full max-w-67 rounded-full h-12"><a href="/profile#borrowedlist">See Borrowed List</a></Button>
         </div>
     )
 }
