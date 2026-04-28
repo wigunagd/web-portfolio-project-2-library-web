@@ -19,6 +19,7 @@ export { default as icCategory5ScienceTech } from './ic-category-5-science-tech.
 export { default as icCategory6Education } from './ic-category-6-education.svg'
 export { default as imgBookTemp } from './img-book-temp.png'
 export { default as icStar } from './ic-star.svg'
+export { default as icStar0 } from './ic-star-0.svg'
 export { default as icBook } from './ic-book.svg'
 export { default as icSocial1Fb } from './ic-social-1-fb.svg'
 export { default as icSocial2Ig } from './ic-social-2-ig.svg'
