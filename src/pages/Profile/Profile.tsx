@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import ProfileTab from "./ProfileTab";
 import { useAppSelector } from "@/redux/3_redux";
-import BorrowedList from "./BorrowedList";
+import BorrowedListTab from "./BorrowedListTab";
+import ReviewTab from "./ReviewTab";
 
 const Profile = () => {
 
@@ -72,7 +73,9 @@ const Profile = () => {
                             className={(!acceptedHash(btnState) || btnState === 'profile') ? '' : 'hidden'}
                         />
 
-                        <BorrowedList className={btnState === 'borrowedlist' ? '' : 'hidden'} />
+                        <BorrowedListTab className={btnState === 'borrowedlist' ? '' : 'hidden'} />
+
+                        <ReviewTab className={btnState === 'reviews' ? '' : 'hidden'} />
 
                     </div>
 

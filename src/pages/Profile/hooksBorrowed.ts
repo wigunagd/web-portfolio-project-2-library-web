@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
-import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
-import type { BorrowedQueryParams, LoanResponse, ReviewBody, SaveReviewResponse } from "./borrowedType";
-import { getBorrowed, sendReview } from "./apiBorrowed";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import type { BorrowedQueryParams, LoanResponse } from "./borrowedType";
+import { getBorrowed } from "./apiBorrowed";
 
 export const useGetBorrowed = (params: BorrowedQueryParams) => {
     return useInfiniteQuery<LoanResponse, AxiosError>({
@@ -13,16 +13,3 @@ export const useGetBorrowed = (params: BorrowedQueryParams) => {
         }
     });
 }
-
-export const useSendReview = () => {
-    return useMutation<SaveReviewResponse, AxiosError, ReviewBody>({
-        mutationFn: (body) => sendReview(body),
-        onSuccess: () => {
-            //console.log(data, 'aaaa')
-        },
-        onError: () => {
-        }
-
-        // on success dan on error dipass ke LoginPage.tsx
-    });
-};

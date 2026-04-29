@@ -42,35 +42,3 @@ export interface LoanResponse {
 }
 /* Book Loans */
 
-/* Review */
-export interface ReviewBody{
-  bookId: number;
-  star: number;
-  comment: string;
-}
-
-export interface Review {
-  id: number;
-  star: number;
-  comment: string;
-  userId: number;
-  bookId: number;
-  createdAt: string;
-}
-
-export interface BookStats {
-  rating: number;
-  reviewCount: number;
-}
-
-export interface SaveReviewData {
-  review: Review;
-  bookStats: BookStats;
-}
-
-export interface SaveReviewResponse {
-  success: boolean;
-  message: string;
-  data: SaveReviewData;
-}
-/* Review */
