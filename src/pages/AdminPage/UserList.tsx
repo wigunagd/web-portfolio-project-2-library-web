@@ -34,14 +34,6 @@ const UserList = ({ className }: pageProps) => {
 
     const { data: dataUser, isLoading: isLoadingDataUser } = useGetUserList({ q, page, limit });
 
-    if (isLoadingDataUser) {
-        return (
-            <div className="flex justify-center p-10">
-                <span>Loading users...</span>
-            </div>
-        );
-    }
-
     const totalPages = dataUser?.data.pagination.totalPages ?? 1
 
     const getBtnArr = (current: number, total: number): number[] => {
@@ -76,9 +68,10 @@ const UserList = ({ className }: pageProps) => {
             </div>
 
             <div className="flex flex-col gap-4">
-                <div className="flex flex-col w-full gap-4 p-4 border rounded-3xl">
 
-                    <table className="table-auto">
+                <div className="flex flex-col w-full gap-4 p-4 md:border md:rounded-3xl">
+
+                    <table className="hidden md:table table-auto">
                         <thead className="bg-neutral-50">
                             <tr className="text-left">
                                 <th className="py-2 px-4">No</th>
@@ -101,22 +94,51 @@ const UserList = ({ className }: pageProps) => {
                                     </tr>
                                 ))
                             }
-
-                            {
-                                isLoadingDataUser && (
-                                    <tr>
-                                        <td colSpan={5} className="flex justify-center">
-                                            <Spinner />
-                                        </td>
-                                    </tr>
-                                )
-                            }
                         </tbody>
                     </table>
 
-                    <div className="grid grid-cols-2 px-6">
-                        <div className="flex">Showing {1 + (limit * (page - 1))} to {displayedNumber} of {dataUser?.data.pagination.total}</div>
-                        <div className="flex gap-6 justify-end">
+                    <div className="flex flex-col gap-4 md:hidden">
+                        {
+                            dataUser?.data.users.map((userItem, i) => (
+                                <div className="flex flex-col w-full gap-1 p-3 border rounded-3xl text-sm font-semibold">
+                                    <div className="grid grid-cols-2">
+                                        <div>No</div>
+                                        <div className="flex justify-end">{displayedNumber = i + 1 + (limit * (page - 1))}</div>
+                                    </div>
+                                    <div className="grid grid-cols-2">
+                                        <div>Name</div>
+                                        <div className="flex justify-end">{userItem.name}</div>
+                                    </div>
+                                    <div className="grid grid-cols-2">
+                                        <div>Email</div>
+                                        <div className="flex justify-end">{userItem.email}</div>
+                                    </div>
+                                    <div className="grid grid-cols-2">
+                                        <div>Nomor Handphone</div>
+                                        <div className="flex justify-end">{userItem.phone}</div>
+                                    </div>
+                                    <div className="grid grid-cols-2">
+                                        <div>Created at</div>
+                                        <div className="flex justify-end">{formatTanggal(userItem.createdAt, 'DD MMM YYYY, HH:mm')}</div>
+                                    </div>
+                                </div>
+                            ))
+                        }
+                    </div>
+
+                    {
+                        isLoadingDataUser && (
+                            <div className="flex w-full justify-center">
+                                <Spinner className="w-10 h-10" />
+                            </div>
+                        )
+                    }
+
+                    <div className="flex md:grid md:grid-cols-2 md:px-6">
+                        <div className="hidden md:flex gap-2 items-center">
+                            Showing {1 + (limit * (page - 1))} to {displayedNumber} of {dataUser?.data.pagination.total}
+                        </div>
+                        <div className="flex items-center md:gap-6 justify-center md:justify-end">
                             <Button onClick={pPrev} variant={'ghost'}><img src={icPPrev} alt="Previous" /> Previous</Button>
                             {
                                 page > 2 && (
@@ -129,7 +151,7 @@ const UserList = ({ className }: pageProps) => {
                                 ))
                             }
                             {
-                                page < totalPages-1 && (
+                                page < totalPages - 1 && (
                                     <div className="w-10 h-10 p-2 flex items-end">...</div>
                                 )
                             }
@@ -137,6 +159,7 @@ const UserList = ({ className }: pageProps) => {
                         </div>
                     </div>
                 </div>
+
             </div>
 
         </div>
