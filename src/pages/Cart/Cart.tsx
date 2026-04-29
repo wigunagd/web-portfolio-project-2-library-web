@@ -160,8 +160,6 @@ const Cart = () => {
                                                                 <span className="border flex w-fit px-2 rounded-sm text-sm font-bold">{item.book.category.name}</span>
                                                                 <span className="text-lg font-bold">{item.book.title}</span>
                                                                 <span className="text-md">{item.book.author.name}</span>
-                                                                <span className="text-md">ID {item.id}</span>
-                                                                <span className="text-md">Book ID {item.bookId}</span>
                                                             </div>
                                                             <div className="absolute top-0 right-0">
                                                                 <Button

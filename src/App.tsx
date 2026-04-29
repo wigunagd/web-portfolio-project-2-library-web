@@ -8,6 +8,7 @@ import Author from './pages/Author/Author'
 import Cart from './pages/Cart/Cart'
 import Checkout from './pages/Checkout/Checkout'
 import Profile from './pages/Profile/Profile'
+import AdminPage from './pages/AdminPage/AdminPage'
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
       <Route path='/cart' element={<Cart />} />
       <Route path='/checkout' element={<Checkout />} />
       <Route path='/profile' element={<Profile />} />
+      <Route path='/adminpage' element={<AdminPage />} />
     </Routes>
   )
 }

@@ -51,7 +51,7 @@ const Navbar = () => {
                     ${!isMobile || showSearch ? 'flex' : 'hidden'}`
                 }>
                     <img src={icSearch} className="w-5 h-5 shrink-0" />
-                    <input id="search" name="search" className="h-full w-full outline-none bg-transparent min-w-0" value={authState.user.profilePhoto} />
+                    <input id="search" name="search" className="h-full w-full outline-none bg-transparent min-w-0" />
                 </div>
 
                 {
@@ -120,17 +120,33 @@ const Navbar = () => {
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button id="drop-down-menu-button" variant={'ghost2'} className="flex items-center gap-2 h-16 hover:bg-neutral-50">
-                                        <img src={authState.user.profilePhoto ?? imgTmpProfilePic} alt="" />
+                                        <img src={authState.user.profilePhoto ?? imgTmpProfilePic} alt="profile image" className="w-12 h-12 rounded-full" />
                                         <span className="text-md font-semibold hidden md:flex">{authState.user.name}</span>
                                         <img src={icDropDown} className="hidden md:flex" />
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent
                                     asChild>
-                                    <div className="min-w-[var(--radix-dropdown-menu-trigger-width)] w-full p-4 flex flex-col gap-4 text-md font-semibold" >
-                                        <a href="/profile#profile" className="px-2">Profile</a>
-                                        <a href="/profile#borrowedlist" className="px-2">Borrowed List</a>
-                                        <a href="/profile#reviews" className="px-2">Reviews</a>
+                                    <div className="min-w-(--radix-dropdown-menu-trigger-width) w-full p-4 flex flex-col gap-4 text-md font-semibold" >
+                                        {
+                                            authState.user.role === 'USER' && (
+                                                <>
+                                                    <a href="/profile#profile" className="px-2">Profile</a>
+                                                    <a href="/profile#borrowedlist" className="px-2">Borrowed List</a>
+                                                    <a href="/profile#reviews" className="px-2">Reviews</a>
+                                                </>
+                                            )
+                                        }
+
+                                        {
+                                            authState.user.role === 'ADMIN' && (
+                                                <>
+                                                    <a href="/adminpage#borrowedlist" className="px-2">Borrowed List</a>
+                                                    <a href="/adminpage#user" className="px-2">User</a>
+                                                    <a href="/adminpage#booklist" className="px-2">Book List</a>
+                                                </>
+                                            )
+                                        }
                                         <a href="#" onClick={handleLogout} className="px-2 text-accent-red">Logout</a>
                                     </div>
                                 </DropdownMenuContent>
