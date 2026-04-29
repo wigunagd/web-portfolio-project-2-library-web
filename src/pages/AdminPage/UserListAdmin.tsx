@@ -9,7 +9,7 @@ interface pageProps {
     className?: string;
 }
 
-const UserList = ({ className }: pageProps) => {
+const UserListAdmin = ({ className }: pageProps) => {
 
     const [q, setQ] = useState('');
     const [page, setPage] = useState(1);
@@ -166,4 +166,4 @@ const UserList = ({ className }: pageProps) => {
     )
 }
 
-export default UserList;
+export default UserListAdmin;

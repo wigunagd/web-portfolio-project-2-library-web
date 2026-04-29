@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/redux/3_redux";
 import { useNavigate } from "react-router-dom";
-import UserList from "./UserList";
+import UserListAdmin from "./UserListAdmin";
+import BorrowedListAdmin from "./BorrowedListAdmin";
 
 const AdminPage = () => {
 
@@ -68,7 +69,9 @@ const AdminPage = () => {
                             })}
                         </div>
 
-                        <UserList className={btnState === 'user' ? '' : 'hidden'} />
+                        <BorrowedListAdmin className={(!acceptedHash(btnState) || btnState === 'borrowedlist') ? '' : 'hidden'}/>
+
+                        <UserListAdmin className={btnState === 'user' ? '' : 'hidden'} />
 
                     </div>
 
