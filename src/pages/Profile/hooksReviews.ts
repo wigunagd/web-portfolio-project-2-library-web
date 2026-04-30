@@ -14,8 +14,6 @@ export const useSendReview = () => {
         },
         onError: () => {
         }
-
-        // on success dan on error dipass ke LoginPage.tsx
     });
 };
 

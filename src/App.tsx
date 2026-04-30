@@ -9,6 +9,7 @@ import Cart from './pages/Cart/Cart'
 import Checkout from './pages/Checkout/Checkout'
 import Profile from './pages/Profile/Profile'
 import AdminPage from './pages/AdminPage/AdminPage'
+import BookPreviewAdmin from './pages/AdminPage/BookPreviewAdmin'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
       <Route path='/checkout' element={<Checkout />} />
       <Route path='/profile' element={<Profile />} />
       <Route path='/adminpage' element={<AdminPage />} />
+      <Route path='/bookpreviewadmin' element={<BookPreviewAdmin />} />
     </Routes>
   )
 }

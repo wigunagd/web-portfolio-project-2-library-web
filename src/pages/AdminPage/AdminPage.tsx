@@ -6,6 +6,7 @@ import { useAppSelector } from "@/redux/3_redux";
 import { useNavigate } from "react-router-dom";
 import UserListAdmin from "./UserListAdmin";
 import BorrowedListAdmin from "./BorrowedListAdmin";
+import BookListAdmin from "./BookListAdmin";
 
 const AdminPage = () => {
 
@@ -72,6 +73,8 @@ const AdminPage = () => {
                         <BorrowedListAdmin className={(!acceptedHash(btnState) || btnState === 'borrowedlist') ? '' : 'hidden'}/>
 
                         <UserListAdmin className={btnState === 'user' ? '' : 'hidden'} />
+
+                        <BookListAdmin className={btnState === 'booklist' ? '' : 'hidden'} />
 
                     </div>
 
