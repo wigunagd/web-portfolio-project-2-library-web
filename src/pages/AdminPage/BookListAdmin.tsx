@@ -175,13 +175,15 @@ const BookListAdmin = ({ className }: pageProps) => {
                     }
                     <div className="grid grid-cols-2 gap-4">
                         <Button
+                            disabled={isPendingDeleteBookAdmin}
                             onClick={handleClose}
                             variant={'outline'}
                             className="rounded-full h-11 p-2 font-bold text-sm md:text-md">Cancel</Button>
                         <Button
+                            disabled={isPendingDeleteBookAdmin}
                             onClick={handleDoDelete}
                             variant={'outline'}
-                            className="rounded-full h-11 p-2 font-bold text-sm md:text-md text-white bg-accent-red">Confirm</Button>
+                            className="rounded-full h-11 p-2 font-bold text-sm md:text-md text-white bg-accent-red">{isPendingDeleteBookAdmin && (<Spinner />) } Confirm</Button>
                     </div>
                 </DialogContent>
             </Dialog>
