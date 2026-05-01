@@ -2,6 +2,7 @@
 export interface BorrowedQueryParams {
   page?: number;
   limit?: number;
+  status?: LoanStatus;
 }
 
 export interface Book {
@@ -10,15 +11,15 @@ export interface Book {
   coverImage: string;
 }
 
-export type LoanStatus = 'BORROWED' | 'RETURNED' | 'OVERDUE';
+export type LoanStatus = '' | 'BORROWED' | 'RETURNED' | 'OVERDUE';
 
 export interface Loan {
   id: number;
   userId: number;
   bookId: number;
   status: LoanStatus;
-  borrowedAt: string; 
-  dueAt: string; 
+  borrowedAt: string;
+  dueAt: string;
   returnedAt: string | null;
   book: Book;
 }

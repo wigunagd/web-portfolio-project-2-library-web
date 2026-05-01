@@ -2,7 +2,7 @@ import { icSearch, icStar, icStar0 } from "@/assets/asset";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useGetBorrowed } from "./hooksBorrowed";
-import type { Loan } from "./borrowedType";
+import type { Loan, LoanStatus } from "./borrowedType";
 import { Spinner } from "@/components/ui/spinner";
 import BorrowedListItem from "./BorrowedListItem";
 import { useSendReview } from "./hooksReviews";
@@ -63,15 +63,15 @@ const BorrowedListTab = ({ className }: pageProps) => {
         },
         {
             txt: 'Active',
-            sttsBorrow: 'active'
+            sttsBorrow: 'BORROWED'
         },
         {
             txt: 'Returned',
-            sttsBorrow: 'returned'
+            sttsBorrow: 'RETURNED'
         },
         {
             txt: 'Overdue',
-            sttsBorrow: 'overdue'
+            sttsBorrow: 'OVERDUE'
         },
     ];
 
@@ -83,7 +83,7 @@ const BorrowedListTab = ({ className }: pageProps) => {
         isFetchingNextPage: isFetchingNextPageBorrowed,
         fetchNextPage: fetchNextPageBorrowed,
         hasNextPage: hasNextPageBorrowed
-    } = useGetBorrowed({ page: 1, limit: 20 });
+    } = useGetBorrowed({ page: 1, limit: 20, status: statusBorrow as LoanStatus });
 
     const handleTxtSearch = (text: string) => {
         setTxtBookSearch(text);
@@ -148,13 +148,11 @@ const BorrowedListTab = ({ className }: pageProps) => {
                             dataBorrowed?.pages.map(page => {
                                 return page.data.loans
                                     .filter((loan: Loan) => {
-                                        const matchesStatus = statusBorrow === '' ||
-                                            loan.status.toLowerCase() === statusBorrow.toLowerCase();
 
                                         const matchesSearch = txtBookSearch === '' ||
                                             loan.book.title.toLowerCase().includes(txtBookSearch.toLowerCase());
 
-                                        return matchesStatus && matchesSearch;
+                                        return matchesSearch;
                                     })
                                     .map((loan: Loan) => {
                                         return (
