@@ -362,7 +362,7 @@ const AddBookAdmin = () => {
                                                     id="avatar-img-display"
                                                     src={previewUrl}
                                                     alt={`avatar `}
-                                                    className="w-full h-auto max-w-[92px] mx-auto object-contain transition-transform" />
+                                                    className="w-full h-auto max-w-23 mx-auto object-contain transition-transform" />
 
                                                 <div className="flex w-full justify-center gap-3">
                                                     <Button
