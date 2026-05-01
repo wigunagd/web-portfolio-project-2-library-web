@@ -47,8 +47,9 @@ const BookListItemAdmin = ({ id, title, category, author, coverImage, rating, on
                         variant={'outline'}
                         className="radius-sm p-2 text-sm md:text-md w-23.75 h-12 rounded-full"><a href={`/bookpreviewadmin?id=${id}`}>Preview</a></Button>
                     <Button
+                        asChild
                         variant={'outline'}
-                        className="radius-sm p-2 text-sm md:text-md w-23.75 h-12 rounded-full">Edit</Button>
+                        className="radius-sm p-2 text-sm md:text-md w-23.75 h-12 rounded-full"><a href={`/editbookadmin?id=${id}`}>Edit</a></Button>
                     <Button
                         onClick={onClickDelete}
                         variant={'outline'}

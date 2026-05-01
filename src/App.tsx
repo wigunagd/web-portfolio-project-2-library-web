@@ -10,6 +10,8 @@ import Checkout from './pages/Checkout/Checkout'
 import Profile from './pages/Profile/Profile'
 import AdminPage from './pages/AdminPage/AdminPage'
 import BookPreviewAdmin from './pages/AdminPage/BookPreviewAdmin'
+import EditBookAdmin from './pages/AdminPage/EditBookAdmin'
+import AddBookAdmin from './pages/AdminPage/AddBookAdmin'
 
 function App() {
 
@@ -26,6 +28,8 @@ function App() {
       <Route path='/profile' element={<Profile />} />
       <Route path='/adminpage' element={<AdminPage />} />
       <Route path='/bookpreviewadmin' element={<BookPreviewAdmin />} />
+      <Route path='/editbookadmin' element={<EditBookAdmin />} />
+      <Route path='/addbookadmin' element={<AddBookAdmin />} />
     </Routes>
   )
 }

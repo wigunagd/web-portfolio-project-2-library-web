@@ -47,18 +47,25 @@ const Navbar = () => {
             <nav className="flex flex-row w-full max-w-300 justify-between items-center mx-auto h-16 md:h-20 px-4 md:px-0 gap-2 md:gap-4">
                 <LogoNav />
 
-                <div id="searchbar" className={`flex-1 min-w-0 h-11 py-2 px-4 border md:max-w-125 rounded-full items-center 
-                    ${!isMobile || showSearch ? 'flex' : 'hidden'}`
-                }>
-                    <img src={icSearch} className="w-5 h-5 shrink-0" />
-                    <input id="search" name="search" className="h-full w-full outline-none bg-transparent min-w-0" />
-                </div>
-
                 {
-                    isMobile && showSearch && (
-                        <Button variant={'ghost2'} onClick={handleToggleSearch} className="block md:hidden">
-                            <img src={icClose} />
-                        </Button>
+                    authState.user.role === 'USER' && (
+
+                        <>
+                            <div id="searchbar" className={`flex-1 min-w-0 h-11 py-2 px-4 border md:max-w-125 rounded-full items-center 
+                                ${!isMobile || showSearch ? 'flex' : 'hidden'}`
+                            }>
+                                <img src={icSearch} className="w-5 h-5 shrink-0" />
+                                <input id="search" name="search" className="h-full w-full outline-none bg-transparent min-w-0" />
+                            </div>
+
+                            {
+                                isMobile && showSearch && (
+                                    <Button variant={'ghost2'} onClick={handleToggleSearch} className="block md:hidden">
+                                        <img src={icClose} />
+                                    </Button>
+                                )
+                            }
+                        </>
                     )
                 }
 
@@ -69,11 +76,18 @@ const Navbar = () => {
                     <div id="user-group" className={` shrink-0 items-center
                         ${isMobile && showSearch ? 'hidden' : 'flex'}
                         `}>
-                        <Button variant={'ghost2'} onClick={handleToggleSearch} className="block md:hidden">
-                            <img src={icSearch2} />
-                        </Button>
 
-                        {islogin && (
+                        {
+                            authState.user.role === 'USER' && (
+
+                                <Button variant={'ghost2'} onClick={handleToggleSearch} className="block md:hidden">
+                                    <img src={icSearch2} />
+                                </Button>
+
+                            )
+                        }
+
+                        {islogin && authState.user.role === 'USER' && (
                             <Button variant={'ghost2'} asChild>
                                 <a href="/cart" className="relative">
                                     <img src={icBag} />

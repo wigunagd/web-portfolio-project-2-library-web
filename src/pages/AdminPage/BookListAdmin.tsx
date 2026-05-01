@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog"
 import type { AxiosError } from "axios";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface pageProps {
     className?: string;
@@ -73,6 +74,8 @@ const BookListAdmin = ({ className }: pageProps) => {
         setIsDialogOpen(false);
     }
 
+    const queryClient = useQueryClient();
+
     const handleDoDelete = () => {
         setErrReview('');
 
@@ -82,7 +85,23 @@ const BookListAdmin = ({ className }: pageProps) => {
                     setIsDialogOpen(false);
                     setIdDelete(null);
                     setIsDialogOpen(false);
-                    toast('Buku dihapus');
+                    toast('Delete Success', {
+                        cancel: {
+                            label: 'X',
+                            onClick: () => { },
+                        },
+                        position: 'top-right',
+                        unstyled: true,
+                        classNames: {
+                            toast: 'bg-accent-green text-white p-4 rounded-xl shadow-lg flex items-center justify-between w-full max-w-sm',
+                            cancelButton: 'text-white font-bold hover:bg-green-600 px-2 rounded'
+                        }
+                    });
+
+                    queryClient.invalidateQueries({
+                        queryKey: ['bookListAdmin']
+                    });
+                    
                 },
                 onError: (e) => {
                     const error = e as AxiosError<DeleteBookResponse>;
@@ -99,7 +118,7 @@ const BookListAdmin = ({ className }: pageProps) => {
         <div className={`flex flex-col w-full mx-auto gap-6 ${className}`}>
             <h1 className="text-left font-bold text-display-xs md:text-display-sm">Book List</h1>
 
-            <Button className="w-full md:max-w-60 rounded-full h-12">Add Book</Button>
+            <Button asChild className="w-full md:max-w-60 rounded-full h-12"><a href="/addbookadmin">Add Book</a></Button>
 
             <div id="searchbarloan" className="flex px-4 py-2 gap-1.5 border md:max-w-138.5 rounded-full items-center">
                 <img src={icSearch} className="w-5 h-5 shrink-0" />
@@ -183,7 +202,7 @@ const BookListAdmin = ({ className }: pageProps) => {
                             disabled={isPendingDeleteBookAdmin}
                             onClick={handleDoDelete}
                             variant={'outline'}
-                            className="rounded-full h-11 p-2 font-bold text-sm md:text-md text-white bg-accent-red">{isPendingDeleteBookAdmin && (<Spinner />) } Confirm</Button>
+                            className="rounded-full h-11 p-2 font-bold text-sm md:text-md text-white bg-accent-red">{isPendingDeleteBookAdmin && (<Spinner />)} Confirm</Button>
                     </div>
                 </DialogContent>
             </Dialog>

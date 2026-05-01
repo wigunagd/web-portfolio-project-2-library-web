@@ -7,14 +7,15 @@ import { useNavigate } from "react-router-dom";
 import UserListAdmin from "./UserListAdmin";
 import BorrowedListAdmin from "./BorrowedListAdmin";
 import BookListAdmin from "./BookListAdmin";
+import { toast } from "sonner";
 
 const AdminPage = () => {
 
     const navigate = useNavigate();
     const authState = useAppSelector((state) => state.auth);
 
-    if(authState.user.role !== 'ADMIN'){
-        navigate('/login'); 
+    if (authState.user.role !== 'ADMIN') {
+        navigate('/login');
     }
 
     const btn_tabs = [
@@ -46,6 +47,27 @@ const AdminPage = () => {
         return () => window.removeEventListener('hashchange', handleHashChange);
     }, []);
 
+    useEffect(() => {
+        const toastSuksesAddPost = sessionStorage.getItem('toastSuksesAddPost');
+
+        if (toastSuksesAddPost === '1') {
+            toast('Add Success', {
+                cancel: {
+                    label: 'X',
+                    onClick: () => { },
+                },
+                position: 'top-right',
+                unstyled: true,
+                classNames: {
+                    toast: 'bg-accent-green text-white p-4 rounded-xl shadow-lg flex items-center justify-between w-full max-w-sm',
+                    cancelButton: 'text-white font-bold hover:bg-green-600 px-2 rounded'
+                }
+            });
+
+            sessionStorage.removeItem('toastSuksesAddPost');
+        }
+    }, []);
+
     return (
         <>
             <Navbar />
@@ -70,7 +92,7 @@ const AdminPage = () => {
                             })}
                         </div>
 
-                        <BorrowedListAdmin className={(!acceptedHash(btnState) || btnState === 'borrowedlist') ? '' : 'hidden'}/>
+                        <BorrowedListAdmin className={(!acceptedHash(btnState) || btnState === 'borrowedlist') ? '' : 'hidden'} />
 
                         <UserListAdmin className={btnState === 'user' ? '' : 'hidden'} />
 

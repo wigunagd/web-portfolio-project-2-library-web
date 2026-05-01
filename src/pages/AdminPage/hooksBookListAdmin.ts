@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import type { BookListAdminResponse, BookListQueryAdminParams, DeleteBookResponse } from "./bookListAdminType";
 import { deleteBookAdmin, getBookListAdmin } from "./apiBookListAdmin";
 
@@ -15,13 +15,10 @@ export const useGetBookListAdmin = (params: BookListQueryAdminParams) => {
 }
 
 export const useDeleteBookAdmin = () => {
-    const queryClient = useQueryClient();
     return useMutation<DeleteBookResponse, AxiosError, number>({
         mutationFn: (id: number) => deleteBookAdmin(id),
         onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ['bookListAdmin']
-            });
+            
         },
         onError: () => {
         }
