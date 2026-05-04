@@ -250,24 +250,35 @@ const AddBookAdmin = () => {
 
                         <div className="grid gap-2">
                             <Label htmlFor="bio" className="text-sm font-bold">Category {isLoadingCategory && (<Spinner />)}</Label>
-                            <Field data-invalid={!authorValid}>
+                            <Field data-invalid={!authorValid} className="relative">
                                 <select
                                     disabled={isPendingAddBookAdmin}
                                     id="categoryId"
                                     name="categoryId"
-                                    className="py-2 px-4 border rounded-xl"
+                                    className="py-2 pl-4 pr-10 border rounded-xl appearance-none bg-no-repeat bg-right text-sm"
                                     required
                                     value={category}
                                     onChange={(e) => handleCategory(Number(e.target.value))}
                                     aria-invalid={!categoryValid}
                                 >
-                                    <option value=""></option>
+                                    <option value="">-Select Category-</option>
                                     {
                                         dataCategories?.data.categories.map(cat => (
                                             <option key={cat.id} value={cat.id}>{cat.name}</option>
                                         ))
                                     }
                                 </select>
+                                 <div className="pointer-events-none absolute inset-y-0 right-0 flex justify-end items-center px-3 text-gray-500">
+                                            <svg
+                                                className="h-4 w-4"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                                            </svg>
+                                        </div>
                                 {!categoryValid && (<FieldLabel className="text-xs text-accent-red">Category required</FieldLabel>)}
                             </Field>
                         </div>
